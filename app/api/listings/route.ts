@@ -32,6 +32,8 @@ export async function POST(request: Request) {
         bathroomCount,
         guestCount,
         locationValue: location.value,
+        latitude: location.latlng?.[0] ?? null,
+        longitude: location.latlng?.[1] ?? null,
         price: parseInt(price, 10),
         userId: currentUser.id
     }

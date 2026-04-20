@@ -8,18 +8,30 @@ import { getCloudinaryBlurURL } from "@/app/libs/utils";
 interface ListingCardProps {
   data: SafeListing;
   currentUser: SafeUser | null;
+  isSelected?: boolean;
+  onSelect?: () => void;
 }
 
-const ListingCard: React.FC<ListingCardProps> = ({ data, currentUser }) => {
+const ListingCard: React.FC<ListingCardProps> = ({
+  data,
+  currentUser,
+  isSelected,
+  onSelect,
+}) => {
   const { getCountry } = useGetCountries();
   const location = getCountry(data.locationValue);
 
   const blurURL = getCloudinaryBlurURL(data.imageSrc);
 
   return (
-    <div className="flex flex-col gap-2 relative">
+    <div
+      className={`flex flex-col gap-2 relative rounded-xl transition-shadow duration-200 cursor-pointer ${
+        isSelected ? "ring-2 ring-accent-pink shadow-lg" : ""
+      }`}
+      onClick={onSelect}
+    >
       <Heart listingId={data.id} currentUser={currentUser} />
-      <Link href={`/rooms/${data.id}`}>
+      <Link href={`/rooms/${data.id}`} onClick={(e) => e.stopPropagation()}>
         <Image
           alt={data.title}
           src={data.imageSrc}
